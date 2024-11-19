@@ -1,0 +1,6 @@
+opencv-python
+numpy
+tqdm
+matplotlib
+scipy
+scikit-learn
