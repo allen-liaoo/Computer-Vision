@@ -86,12 +86,14 @@ def conv_backward(dl_dy, x, w_conv, b_conv):
     # so we create another sliding window across x with width and height as W-k+1 and H-k+1
     x_windows = np.lib.stride_tricks.sliding_window_view(x, (H-kernel_size+1, W-kernel_size+1), axis=(0,1))
     y_windows = np.lib.stride_tricks.sliding_window_view(dl_dy, (H-kernel_size+1, W-kernel_size+1), axis=(0,1))
+    x_windows = x_windows[:,:,:,None,...] # make x_windows broadcastable to y_windows (Both has dims (H,W,C1,C2,...))
+    y_windows = y_windows[:,:,None,:,...] # and vice versa
 
     # derivative of w_ij across channels uses the same windows of x as scalar, but different parts of dl_dy
     dl_dw = x_windows * y_windows # element-wise multiply
-    dl_dw = np.sum(dl_dw, axis=(3,4)) # sum over all windows
-    dl_dw = dl_dw[:,:,None,:] # (h,w,C2) to (h,w,C1,C2) (C1 = 1, so this is hardcoded. What is supposed to happened to it?)
-    dl_db = np.sum(dl_dy, axis=(0,1))[:,None] # derivative is sum of dl_dy * 1; sum over first two axis of (H,W,C2)
+    dl_dw = np.sum(dl_dw, axis=(4,5)) # sum over all windows
+    dl_db = np.sum(dl_dy, axis=(0,1)) # derivative is sum of dl_dy * 1; sum over first two axis of (H,W,C2)
+    dl_db = dl_db[:,None] # make dim (C2,1)
     return dl_dw, dl_db
 
 
@@ -122,6 +124,7 @@ def pool2x2_backward(dl_dy, x):
     pool_size = 2
     windows = pool2x2_windows(x)
 
+    # derivative matrix of dl_dx consists of 1s at max of each pooling window, 0s elsewhere
     windows = np.reshape(windows, windows.shape[:-2] + (-1,)) # flatten each window (for argmax)
     maxes = np.argmax(windows, axis=3)
     dl_dx_windows = np.zeros_like(windows)
@@ -136,12 +139,10 @@ def pool2x2_backward(dl_dy, x):
     # multiply with dl_dy
     dl_dx_windows = dl_dy[..., None] * dl_dx_windows
 
-    # reverse window back to image shape by
-    # assigning derivative matrix (1s at max of each pooling window, 0s elsewhere) to dl_dx of (H,W,...)
-    # each assignment writes a window to dl_dx
     dl_dx = np.zeros_like(x)
     H_wins, W_wins, *_ = dl_dx_windows.shape
 
+    # assign each window of derivative matrix to dl_dx at the right place
     dl_dx_windows = np.reshape(dl_dx_windows, dl_dx_windows.shape[:-1] + (pool_size, pool_size)) # unflatten window
     for i in range(H_wins):
         row = i * pool_size
