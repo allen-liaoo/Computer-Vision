@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 from tqdm import tqdm
-
+import pathlib
 
 def get_mini_batch(im_train, label_train, batch_size):
     size = im_train.shape[1]
@@ -345,10 +345,10 @@ def visualize_confusion_matrix(confusion, accuracy, label_classes):
 
 
 def get_MNIST_data(resource_dir):
-    with open(resource_dir + 'mnist_train.npz', 'rb') as f:
+    with open(resource_dir / 'mnist_train.npz', 'rb') as f:
         d = np.load(f)
         image_train, label_train = d['img'], d['label']  # (12k, 14, 14), (12k, 1)
-    with open(resource_dir + 'mnist_test.npz', 'rb') as f:
+    with open(resource_dir / 'mnist_test.npz', 'rb') as f:
         d = np.load(f)
         image_test, label_test = d['img'], d['label']  # (2k, 14, 14), (2k, 1)
 
@@ -358,25 +358,25 @@ def get_MNIST_data(resource_dir):
 
 
 if __name__ == '__main__':
-    work_dir = 'hw5/'
+    work_dir = pathlib.Path(__file__).parent
 
     image_train, label_train, image_test, label_test, label_classes = get_MNIST_data(work_dir)
     image_train, image_test = image_train.reshape((-1, 196)).T / 255.0, image_test.reshape((-1, 196)).T / 255.0
 
     # Part 1: Multi-layer Perceptron
     # train
-    # mini_batch_x, mini_batch_y = get_mini_batch(image_train, label_train.T, batch_size=32)
-    # w1, b1, w2, b2, losses = train_mlp(mini_batch_x, mini_batch_y,
-    #                                    learning_rate=0.1, decay_rate=0.9, num_iters=10000)
-    # visualize_training_progress(losses, len(mini_batch_x))
-    # np.savez(work_dir + 'mlp.npz', w1=w1, b1=b1, w2=w2, b2=b2)
+    mini_batch_x, mini_batch_y = get_mini_batch(image_train, label_train.T, batch_size=32)
+    w1, b1, w2, b2, losses = train_mlp(mini_batch_x, mini_batch_y,
+                                       learning_rate=0.1, decay_rate=0.9, num_iters=10000)
+    visualize_training_progress(losses, len(mini_batch_x))
+    np.savez(work_dir / 'mlp.npz', w1=w1, b1=b1, w2=w2, b2=b2)
 
     # test
-    # pred_test = np.zeros_like(label_test)
-    # for i in range(image_test.shape[1]):
-    #     pred_test[i, 0] = infer_mlp(image_test[:, i].reshape((-1, 1)), w1, b1, w2, b2)
-    # confusion, accuracy = compute_confusion_matrix_and_accuracy(pred_test, label_test, len(label_classes))
-    # visualize_confusion_matrix(confusion, accuracy, label_classes)
+    pred_test = np.zeros_like(label_test)
+    for i in range(image_test.shape[1]):
+        pred_test[i, 0] = infer_mlp(image_test[:, i].reshape((-1, 1)), w1, b1, w2, b2)
+    confusion, accuracy = compute_confusion_matrix_and_accuracy(pred_test, label_test, len(label_classes))
+    visualize_confusion_matrix(confusion, accuracy, label_classes)
 
     # Part 2: Convolutional Neural Network
     # train
@@ -385,7 +385,7 @@ if __name__ == '__main__':
     w_conv, b_conv, w_fc, b_fc, losses = train_cnn(mini_batch_x, mini_batch_y,
                                                    learning_rate=0.1, decay_rate=0.9, num_iters=1000)
     visualize_training_progress(losses, len(mini_batch_x))
-    np.savez(work_dir + 'cnn.npz', w_conv=w_conv, b_conv=b_conv, w_fc=w_fc, b_fc=b_fc)
+    np.savez(work_dir / 'cnn.npz', w_conv=w_conv, b_conv=b_conv, w_fc=w_fc, b_fc=b_fc)
 
     # test
     pred_test = np.zeros_like(label_test)
