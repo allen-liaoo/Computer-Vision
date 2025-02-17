@@ -1,0 +1,184 @@
+%% This is a collection of stubs of the most frequently used bibtex entries
+%% with the required fields. Please refer to BibTeX/BibLaTeX docs for
+%% additional details.
+%% http://biblatex-biber.sourceforge.net/
+
+%% An article from a journal or magazine.
+@article{10.1016/j.compag.2022.107015,
+author = {Yin, Hua and Yi, Wenlong and Hu, Dianming},
+title = {Computer vision and machine learning applied in the mushroom industry: A critical review},
+year = {2022},
+issue_date = {Jul 2022},
+publisher = {Elsevier Science Publishers B. V.},
+address = {NLD},
+volume = {198},
+number = {C},
+issn = {0168-1699},
+url = {https://doi.org/10.1016/j.compag.2022.107015},
+doi = {10.1016/j.compag.2022.107015},
+journal = {Comput. Electron. Agric.},
+month = jul,
+numpages = {12},
+keywords = {USDA, TOF, SVM, SL, SFM, RIDOR, RGB, PLC, PNN, PCA, PBR, MPGAN, LDA, IoT, GPU, GAN, DSLR, DL, CUDA, CNN, BP, AdaBoost, Agricultural products, Mushroom, Machine learning, Computer vision}}
+
+@book{groves1979mushrooms,
+  author    = {J. Walton Groves and S.A. Redhead},
+  title     = {Edible and Poisonous Mushrooms of Canada},
+  year      = {1979},
+  edition   = {Revised},
+  publisher = {Agriculture Canada},
+  address   = {Ottawa},
+  pages     = {346},
+  note      = {Includes addendum by S.A. Redhead},
+  url       = {https://publications.gc.ca/site/eng/9.697433/publication.html}}
+
+@article{9552053,
+  author={Kiss, Norbert and Czùni, László},
+  booktitle={2021 12th International Symposium on Image and Signal Processing and Analysis (ISPA)}, 
+  title={Mushroom Image Classification with CNNs: A Case-Study of Different Learning Strategies},
+  year={2021},
+  volume={},
+  number={},
+  pages={165-170},
+  keywords={Training;Performance evaluation;Visualization;Image recognition;Transfer learning;Neural networks;Imaging;mushroom image classification;deep learning;hyperparameters},
+  doi={10.1109/ISPA52656.2021.9552053},
+  annote={Allen's annotation: The paper explores classifying mushroom species using convolutional neural networks (CNNs). It discusses various strategies, including transfer learning, gradual freezing, and class-specific subnetworks, using EfficientNet models. \par 
+    The paper considers the same dataset, FGVCx, but did not use theit because the it contains random images that are not useful for classification, like microscopic images. So they scraped a public website for data, and filtered it by training a CNN classifier using the ResNet architecture on the FGVCx dataset. They were able to get the accuracy of the filter near 90\% on the data they scraped from the public website.\par 
+    They then used versions of the EfficientNet, varying the scale, initial weights and training methodologies. In the many versions of EfficienNet differing in architectural scales, they gradually scaled up the model to find the optimal scale for the task. They discovered that freezing the init The best model achieved an accuracy of 92.6\% in classifying 106 mushroom species. The study emphasizes creating a clean dataset and optimizing CNNs for performance with limited computational resources.} }
+
+%% An article from a journal or magazine.
+@article{amir2022deep,
+  author={Shir Amir and Yossi Gandelsman and Shai Bagon and Tali Dekel},
+  title={Deep ViT Features as Dense Visual Descriptors},
+  journal={arXiv preprint arXiv:2112.05814},
+  year={2022},
+  eprint={2112.05814},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2112.05814},
+  annote={Mikayla's annotation: The article “Deep ViT Features as Dense Visual Descriptors” investigates using deep features extracted from a Vision Transformer (ViT) as dense visual descriptors for part and full co-segmentation tasks and semantic point correspondence tasks. Specifically, the authors use the self-supervised DINO-ViT model in segmenting the low level features in images alongside lightweight methods of clustering that did not require additional training to compete with state of the art supervised models in vision tasks. The results show that ViT features encode localized semantic information at a high spatial resolution, which already increases the amount of information held per feature of an image than just the pixels alone. Further, the ViT features share semantic representations across different object categories, which allows for generalizability in the transformer’s goal. \par
+    This relates to my goal of using this approach to identifying mushrooms from an image. Currently, there is an updated version, DINOv2, that I would like to try to implement in my approach following what these authors did with the older DINO-ViT. This article shows that this method is comparable to SOTA CNNs and, therefore, I can use this as a starting point in using an MLP in our classification task.}}
+
+%% An article from a journal or magazine.
+@article{DINOv2,
+  title={Emerging Properties in Self-Supervised Vision Transformers},
+  author={Mathilde Caron, Hugo Touvron, Ishan Misra, Hervé Jégou, Julien Mairal, Piotr Bojanowski, and Armand Joulin}
+  eprint={2104.14294},
+  archivePrefix={arXiv},
+  year={2021},
+  note={Available at https://arxiv.org/abs/2104.14294},
+  annote={Mikayla's (brief) annotation: This outlines the DINOv2 ViT architecture that will help our ViT method pick up on lower level image features for semantic segmentation as pre-trained image segmenters like SAM are not going to be very customizable for our use in Mushroom morphological separation.}
+}
+
+@article{ViT,
+  title={An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale},
+  author={Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn, Xiaohua Zhai, Thomas Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg Heigold, Sylvain Gelly, Jakob Uszkoreit, and Neil Houlsby}
+  eprint={2010.11929},
+  archivePrefix={arXiv},
+  year={2021},
+  note={Available at https://arxiv.org/abs/2010.11929},
+  annote={Mikayla's (brief) annotation: This outlines the ViT architecture that I initially was planning to implement, but instead went with the DINO backbone instead for better low-level feature detection.}
+}
+
+@misc{dinov2_git,
+  title={DINOv2: Learning Robust Visual Features without Supervision},
+  author={Oquab, Maxime and Darcet, Timothée and Moutakanni, Theo and Vo, Huy V. and Szafraniec, Marc and Khalidov, Vasil and Fernandez, Pierre and Haziza, Daniel and Massa, Francisco and El-Nouby, Alaaeldin and Howes, Russell and Huang, Po-Yao and Xu, Hu and Sharma, Vasu and Li, Shang-Wen and Galuba, Wojciech and Rabbat, Mike and Assran, Mido and Ballas, Nicolas and Synnaeve, Gabriel and Misra, Ishan and Jegou, Herve and Mairal, Julien and Labatut, Patrick and Joulin, Armand and Bojanowski, Piotr},
+  journal={arXiv:2304.07193},
+  year={2023},
+  note={Code available at https://github.com/facebookresearch/dinov2},
+  annote={Mikayla's (brief) annotation: This is the DINOv2ViT backbone used in my model's implementation.}
+}
+
+%% An online resource (BibLaTeX only)
+@online{ViTSpeeds,
+  author       = "Lucas Beyer",
+  title        = "On the speed of ViTs and CNNs",
+  year         = 21Jul2024,
+  url          = {https://lucasb.eyer.be/articles/vit_cnn_speed.html},
+  annote={Mikayla's (brief) annotation: While not a peer reviewed resource, it showed a fairly clear example of how ViT speeds are not ideal.}
+}
+
+%%PCA/LDA article annotated
+@article{lakshika2021,
+  author={Jayani P. G. Lakshika and Thiyanga S. Talagala},
+  title={Computer-aided Interpretable Features for Leaf Image Classification},  
+  year={2021},
+  eprint={2106.08077},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2106.08077},
+  %annote={Namith's annotation: The paper "Computer-aided Interpretable Features for Leaf Image Classification" focuses on using computer-aided techniques to extract Interpretable features from leaf image datasets for species classification. The paper outlines an image processing pipeline, which includes steps like Gaussion Filtering/Smoothing, Binary Thresholding, and edge detection to enhance images for feature extraction. The four main feature categories introduced in this paper are shape, color, texture, and scagnostic features. They employ PCA and LDA to evaluate the effectivness of these features and extract them from images using computer vision techniques. In this study two different benchmark leaf image datasets were used: i) Flavia: 1907 fully color images of 32 classes of leaves [Wu et al., 2007b] and ii) Swedish: 1125 images from 15 different plant species [Söderkvist, 2001]. They found that PCA and LDA were effective in distinguishing between plant species in these datasets, and showed a clear separation between classes.\par
+  %The information discussed in this paper can be applied to the problem of mushroom identification quite well. The image processing and feature extraction techniques are relevant for analyzing mushroom images, and the same interpretable features can be extracted from mushroom images and used for classification of poisonous or edible. This method provides a way of classification without a reliance on neural networks.}}
+
+@misc{Visipedia, title={Visipedia/FGVCX\_FUNGI\_COMP: Fgvcx fungi classfiication competition details}, url={https://github.com/visipedia/fgvcx\_fungi\_comp}, journal={GitHub}, author={Visipedia}} 
+
+@misc{fungi-challenge-fgvc-2018,
+    author = {beejisbrigit, Yin Cui},
+    title = {2018 FGCVx Fungi Classification Challenge},
+    publisher = {Kaggle},
+    year = {2018},
+    url = {https://kaggle.com/competitions/fungi-challenge-fgvc-2018}
+}
+
+%% A book with an explicit publisher.
+@book{,
+  author    = "",
+  title     = "",
+  publisher = "",
+  year      = 
+}
+
+%% The same as inproceedings
+@conference{,
+  author    = "",
+  title     = "",
+  booktitle = "",
+  number    = ,
+  year      = 
+}
+    
+%% An article in a conference proceedings.
+@inproceedings{,
+  author    = "",
+  title     = "",
+  booktitle = "",
+  year      = 
+}
+
+%% A Master's thesis.
+@masterthesis{,
+  author = "",
+  title  = "",
+  school = "",
+  year   = 
+}
+    
+
+
+
+
+%% A Ph.D. thesis.
+@phdthesis{,
+  author = "",
+  title  = "",
+  school = "",
+  year   = 
+}
+
+%% A report published by a school or other institution, usually numbered within a series.
+@techreport{,
+  author      = "",
+  title       = "",
+  institution = "",
+  year        = 
+}
+%% A document having an author and title, but not formally published
+@unpublished{,
+  author = "",
+  title  = "",
+  note   = "",
+  month  = "",
+  year   = 
+}
+   
+
